@@ -5,7 +5,7 @@
 ;; Author: xcezx <main.xcezx@gmail.com>
 ;; URL: https://github.com/xcezx/xdiag-mode
 ;; Version: 0.1.0
-;; Package-Requires: ()
+;; Package-Requires: ((emacs "24.3"))
 
 ;; This file is not part of GNU Emacs.
 

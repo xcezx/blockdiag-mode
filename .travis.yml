@@ -1,6 +1,9 @@
 language: emacs-lisp
 env:
-  - EMACS_VERSION=emacs-24.5-travis
+  matrix:
+    - EMACS_VERSION=emacs-24.3-travis
+    - EMACS_VERSION=emacs-24.4-travis
+    - EMACS_VERSION=emacs-24.5-travis
 
 before_install:
   - curl -fsSkL https://gist.github.com/rejeep/ebcd57c3af83b049833b/raw > x.sh && source ./x.sh
@@ -9,5 +12,3 @@ before_install:
 script:
   - emacs --version
   - make test
-
-
