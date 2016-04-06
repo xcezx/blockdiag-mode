@@ -94,6 +94,16 @@
         blockdiag-edge-attribute-keywords) 'words) . font-lock-keyword-face)
     (,(regexp-opt '("blockdiag") 'words) . font-lock-constant-face)))
 
+(defvar blockdiag-mode-syntax-table
+  (let ((st (make-syntax-table)))
+    (modify-syntax-entry ?_ "w" st)
+    (modify-syntax-entry ?# "< b" st)
+    (modify-syntax-entry ?\n "> b" st)
+    (modify-syntax-entry ?/ ". 124b" st)
+    (modify-syntax-entry ?* ". 23" st)
+    st)
+  "Syntax table for blockdiag-mode.")
+
 (defconst blockdiag-smie-grammar
   (smie-prec2->grammar
    (smie-precs->prec2 '((assoc ";") (assoc ",")))))
@@ -114,16 +124,6 @@ information."
   "Major mode for editing blockdiag file in Emacs"
 
   (setq font-lock-defaults '((blockdiag-font-lock-keywords)))
-
-  (modify-syntax-entry ?_ "w" blockdiag-mode-syntax-table)
-
-  ;; single line comment
-  (modify-syntax-entry ?# "< b" blockdiag-mode-syntax-table)
-  (modify-syntax-entry ?\n "> b" blockdiag-mode-syntax-table)
-
-  ;; multiple line comment
-  (modify-syntax-entry ?/ ". 124b" blockdiag-mode-syntax-table)
-  (modify-syntax-entry ?* ". 23" blockdiag-mode-syntax-table)
 
   (set (make-local-variable 'comment-start) "// ")
   (set (make-local-variable 'comment-end) "")
