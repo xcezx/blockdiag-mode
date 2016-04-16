@@ -28,6 +28,8 @@
 
 ;;; Code:
 
+(require 'derived)
+(require 'compile)
 (require 'smie)
 
 (defgroup blockdiag nil
@@ -37,6 +39,16 @@
 (defcustom blockdiag-indent-level 4
   "Basic indentation step for blockdiag-mode."
   :type 'integer
+  :group 'blockdiag)
+
+(defcustom blockdiag-command "blockdiag"
+  "Command used to compile blockdiag files"
+  :type 'string
+  :group 'blockdiag)
+
+(defcustom blockdiag-command-options nil
+  "Command line options for blockdiag executable"
+  :type '(repeat string)
   :group 'blockdiag)
 
 (defconst blockdiag-diagram-attribute-keywords
@@ -104,6 +116,12 @@
     st)
   "Syntax table for blockdiag-mode.")
 
+(defconst blockdiag-mode-map
+  (let ((m (make-sparse-keymap)))
+    (define-key m (kbd "C-c C-c") 'blockdiag-compile)
+    m)
+  "Keymap for blockdiag-mode.")
+
 (defconst blockdiag-smie-grammar
   (smie-prec2->grammar
    (smie-precs->prec2 '((assoc ";") (assoc ",")))))
@@ -119,7 +137,13 @@ information."
     (`(:before . "{") (if (smie-rule-hanging-p)
                           (smie-rule-parent 0)))))
 
-;;;### autoload
+(defun blockdiag-compile ()
+  "Compile current buffer"
+  (interactive)
+  (compile (concat blockdiag-command " " (mapconcat 'identity blockdiag-command-options " ")
+                   buffer-file-name)))
+
+;;;###autoload
 (define-derived-mode blockdiag-mode prog-mode "blockdiag"
   "Major mode for editing blockdiag file in Emacs"
 
