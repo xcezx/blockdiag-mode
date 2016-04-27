@@ -119,7 +119,7 @@ information."
     (`(:before . "{") (if (smie-rule-hanging-p)
                           (smie-rule-parent 0)))))
 
-;;;### autoload
+;;;###autoload
 (define-derived-mode blockdiag-mode prog-mode "blockdiag"
   "Major mode for editing blockdiag file in Emacs"
 
